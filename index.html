@@ -4,14 +4,20 @@
         <meta charset="utf-8" />
         <title>Schedule manager ver. 0.1.0a</title>
         <script src="vue.js"></script>
+        <link rel="stylesheet" type="text/css" href="main.css">
     </head>
     <body>
     <div id = "page">
+        <h1>実績入力</h1>
         <!--
         <input type="radio" name = "showing" value="plan" checked="checked">予定
         <input type="radio" name = "showing" value="do">実績
         -->
         <div id="plan">
+                <input type="button" @click="clearList" class="menu" value="クリア" />
+                <input type="button" @click="saveTemplate" class="menu" value="テンプレ保存" title="現在の内容をテンプレートとして保存します。"/>
+                <input type="button" @click="loadTemplate" class="menu" value="テンプレ呼出" title="テンプレートをロードします。"/>
+        
             <ul>
                 <schedule-item
                 v-for="(item,index) in scheduleList"
@@ -30,11 +36,9 @@
                 @save-item="saveItem"
                 ></schedule-item>
             </ul>
-            <input type="button" @click = "outputResult" value="出力">
-            <!--
-            <input type="button" @click = "outputJSON" value="JSON出力">
-            -->
-            <input type="button" @click = "copyResult" value="結果をクリップボードにコピー">
+            <input type="button" @click = "outputResult" class="menu" value="出力">
+            <input type="button" @click = "copyResult" class="menu" value="結果をクリップボードにコピー">
+
             <br />
             <textarea rows="10" cols="80">{{ outputStr }}</textarea>
         </div>
