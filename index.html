@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <title>Schedule manager ver. 0.1.0a</title>
+        <script src="vue.js"></script>
+    </head>
+    <body>
+    <div id = "page">
+        <!--
+        <input type="radio" name = "showing" value="plan" checked="checked">予定
+        <input type="radio" name = "showing" value="do">実績
+        -->
+        <div id="plan">
+            <ul>
+                <schedule-item
+                v-for="(item,index) in scheduleList"
+                v-bind:schedule="item"
+                v-bind:index="index"
+                v-bind:totalsize="scheduleList.length"
+                v-bind:key="item.id"
+                :ref="index"
+                @insert-now-time="insertNowTime(index)"
+                @add-item="addItem(index)"
+                @copy-item="copyItem(index)"
+                @move-up-item="moveUpItem(index)"
+                @move-down-item="moveDownItem(index)"
+                @delete-item="deleteItem(index)"
+                @change-end-time="onChangeEndTime(index)"
+                @save-item="saveItem"
+                ></schedule-item>
+            </ul>
+            <input type="button" @click = "outputResult" value="出力">
+            <!--
+            <input type="button" @click = "outputJSON" value="JSON出力">
+            -->
+            <input type="button" @click = "copyResult" value="結果をクリップボードにコピー">
+            <br />
+            <textarea rows="10" cols="80">{{ outputStr }}</textarea>
+        </div>
+    </div>
+        <script src="main.js"></script>
+    </body>
+</html>
