@@ -133,7 +133,7 @@ var vm = new Vue({
             this.scheduleList[index+1].start = this.scheduleList[index].end;
         },
         outputResult: function(){
-            this.outputStr = "";
+            this.outputStr = "\n";
             for(item in this.scheduleList){
                 this.outputStr += "- " + this.scheduleList[item].start +
                              " - " + this.scheduleList[item].end + " " +
