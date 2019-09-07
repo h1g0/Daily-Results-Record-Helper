@@ -1,11 +1,38 @@
+#page{
+    width: 640px;
+}
 h1 {
     font-size: 16px;
-    padding: 0.4em 0.5em;
+    padding: 0.3em 0.3em;
     color: #494949;
     background: #f4f4f4;
-    border-left: solid 5px #7db4e6;
+    border-left: solid 16px #7db4e6;
     border-bottom: solid 3px #d7d7d7;
-  }
+}
+h2 {
+    font-size: 16px;
+    padding: 0.1em 1.0em;
+    color: #494949;
+    background: #f4f4f4;
+    border-left: solid 16px #7db4e6;
+}
+h3 {
+    font-size: 14px;
+    padding: 0.1em 1.0em;
+    color: #494949;
+    border-left: solid 8px #7db4e6;
+}
+@keyframes show{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+.schedule-item{
+    animation: show 0.3s linear 0s;
+}
 button{
     background-color: transparent;
     border: none;
@@ -30,4 +57,63 @@ button{
 .menu:hover {
     color : #f4f4f4;
     background : #7db4e6;
+}
+
+div#settings{
+    animation: show 0.3s linear 0s;
+}
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label.switch {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    width: 60px;
+    height: 16px;
+    color: #949494;
+    border: 1px solid #494949;
+    border-radius: 3px;
+    background-color: #f4f4f4;
+}
+
+input[type="checkbox"]:checked + label.switch {
+    border: 1px solid #494949;
+    background-color: #7db4e6;
+}
+
+input[type="checkbox"] + label.switch::before {
+    font-size: 12px;
+    content: "off";
+    position: absolute;
+    top: 1px;
+    left: auto;
+    right: 6px;
+    color: #494949
+}
+
+input[type="checkbox"]:checked + label.switch::before {
+    content: "on";
+    position: absolute;
+    left: 6px;
+    right: auto;
+    color: #f4f4f4;
+}
+
+input[type="checkbox"] + label.switch > div {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #494949;
+    border-radius: 3px;
+    background-color: #f4f4f4;
+    transition: 0.2s;
+}
+
+input[type="checkbox"]:checked + label.switch > div {
+    border: 1px solid transparent;
+    left: 44px;
 }

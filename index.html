@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8" />
-        <title>Schedule Maker ver. 0.2.0a</title>
+        <title>KACUSAN - Daily Results Record Helper ver. 0.3.0a</title>
         <script src="vue.js"></script>
         <link rel="stylesheet" type="text/css" href="main.css">
     </head>
@@ -13,7 +13,7 @@
         <input type="radio" name = "showing" value="plan" checked="checked">予定
         <input type="radio" name = "showing" value="do">実績
         -->
-        <div id="plan">
+        <div id="main">
                 <input type="button" @click="clearList" class="menu" value="クリア" />
                 <input type="button" @click="saveTemplate" class="menu" value="テンプレ保存" title="現在の内容をテンプレートとして保存します。"/>
                 <input type="button" @click="loadTemplate" class="menu" value="テンプレ呼出" title="テンプレートをロードします。"/>
@@ -36,11 +36,39 @@
                 @save-item="saveItem"
                 ></schedule-item>
             </ul>
-            <input type="button" @click = "outputResult" class="menu" value="出力">
-            <input type="button" @click = "copyResult" class="menu" value="結果をクリップボードにコピー">
-
+            <input type="button" @click = "outputResult" class="menu" value="出力" />
+            <input type="button" @click = "copyResult" class="menu" value="結果をクリップボードにコピー" />
             <br />
             <textarea rows="10" cols="80">{{ outputStr }}</textarea>
+            <div style="margin-top:1em;align-content:center;">
+            設定を表示する：
+            <input type="checkbox" v-model="showSettings" id="switchShowSettings"/>
+            <label class="switch" for="switchShowSettings"><div></div></label>
+            </div>
+
+            <div id="settings" v-show="showSettings">
+                <h2>設定</h2>
+                <h3>カテゴリ設定（1行に1項目）</h3>
+                <textarea rows="10" cols="80">{{ outputStr }}</textarea>
+                <br />
+                <br />
+                <h3>出力文字列テンプレート</h3>
+                <input type = "text" v-model = "outputTemplate" size = "80" title = "出力文字列のテンプレート" /><br />
+                <br />
+                <div style="font-size: 80%;border: 1px #d7d7d7 dashed;">
+                    <strong>置換される文字列：</strong>
+                    <ul>
+                    <li>{StartHour}：開始時刻（時）</li>
+                    <li>{StartMinutes}：開始時刻（分）</li>
+                    <li>{EndHour}：終了時刻（時）</li>
+                    <li>{EndMinutes}：終了時刻（分）</li>
+                    <li>{DurationHour}：経過時間（時）</li>
+                    <li>{DurationMinutes}：経過時間（分）</li>
+                    <li>{Category}：カテゴリ</li>
+                    <li>{Text}：内容</li>
+                </ul>
+                </div>
+            </div>
         </div>
     </div>
         <script src="main.js"></script>
