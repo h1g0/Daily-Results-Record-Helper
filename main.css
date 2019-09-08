@@ -1,5 +1,20 @@
+.v-enter-active, .v-leave-active, .v-move {
+    animation-timing-function: ease;
+    transition: opacity 0.3s, transform 0.3s;
+}
+.v-leave-active {
+    position: absolute;
+}
+.v-enter {
+    opacity: 0;
+    transform: translateX(-64px);
+}
+.v-leave-to {
+    opacity: 0;
+    transform: translateX(64px);
+}
 #page{
-    width: 640px;
+    width: 100%;
 }
 h1 {
     font-size: 16px;
@@ -22,17 +37,7 @@ h3 {
     color: #494949;
     border-left: solid 8px #7db4e6;
 }
-@keyframes show{
-    from{
-        opacity: 0;
-    }
-    to{
-        opacity: 1;
-    }
-}
-.schedule-item{
-    animation: show 0.3s linear 0s;
-}
+
 button{
     background-color: transparent;
     border: none;
@@ -60,7 +65,7 @@ button{
 }
 
 div#settings{
-    animation: show 0.3s linear 0s;
+    animation: show 0.3s ease 0s;
 }
 input[type="checkbox"] {
     display: none;
@@ -70,7 +75,7 @@ input[type="checkbox"] + label.switch {
     position: relative;
     cursor: pointer;
     display: inline-block;
-    width: 60px;
+    width: 48px;
     height: 16px;
     color: #949494;
     border: 1px solid #494949;
@@ -115,5 +120,9 @@ input[type="checkbox"] + label.switch > div {
 
 input[type="checkbox"]:checked + label.switch > div {
     border: 1px solid transparent;
-    left: 44px;
+    left: 32px;
+}
+div.enclosure{
+    font-size: 80%;
+    border: 1px #d7d7d7 dashed;
 }

@@ -2,28 +2,26 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8" />
-        <title>KACUSAN - Daily Results Record Helper ver. 0.3.0a</title>
+        <title>Daily Results Record Helper - KACUSAN ver. 0.3.0a</title>
         <script src="vue.js"></script>
         <link rel="stylesheet" type="text/css" href="main.css">
     </head>
     <body>
     <div id = "page">
         <h1>実績入力</h1>
-        <!--
-        <input type="radio" name = "showing" value="plan" checked="checked">予定
-        <input type="radio" name = "showing" value="do">実績
-        -->
         <div id="main">
                 <input type="button" @click="clearList" class="menu" value="クリア" />
                 <input type="button" @click="saveTemplate" class="menu" value="テンプレ保存" title="現在の内容をテンプレートとして保存します。"/>
                 <input type="button" @click="loadTemplate" class="menu" value="テンプレ呼出" title="テンプレートをロードします。"/>
         
             <ul>
+                <transition-group>
                 <schedule-item
                 v-for="(item,index) in scheduleList"
                 v-bind:schedule="item"
                 v-bind:index="index"
                 v-bind:totalsize="scheduleList.length"
+                v-bind:categorylist="categoryList"
                 v-bind:key="item.id"
                 :ref="index"
                 @insert-now-time="insertNowTime(index)"
@@ -33,29 +31,40 @@
                 @move-down-item="moveDownItem(index)"
                 @delete-item="deleteItem(index)"
                 @change-end-time="onChangeEndTime(index)"
+                @change-start-time="onChangeStartTime(index)"
                 @save-item="saveItem"
                 ></schedule-item>
+            </transition-group>
             </ul>
-            <input type="button" @click = "outputResult" class="menu" value="出力" />
+            <input type="button" @click = "outputResult" class="menu" value="タイムライン出力" title = "入力されたリストをテンプレートに従って整形して出力します。"/>
+            <input type="button" @click = "outputSummaryResult" class="menu" value="カテゴリ別サマリ出力" title = "カテゴリ別に経過時間を集約し、その結果を出力します。" />
+            <input type="button" @click = "outputAllResult" class="menu" value="両方とも出力" title = "タイムラインとカテゴリ別サマリの両方を出力します。" />
+
             <input type="button" @click = "copyResult" class="menu" value="結果をクリップボードにコピー" />
             <br />
             <textarea rows="10" cols="80">{{ outputStr }}</textarea>
             <div style="margin-top:1em;align-content:center;">
             設定を表示する：
-            <input type="checkbox" v-model="showSettings" id="switchShowSettings"/>
+            <input type="checkbox" v-model="settings.showSettings" @change="onChangeSettings" id="switchShowSettings"/>
             <label class="switch" for="switchShowSettings"><div></div></label>
             </div>
-
-            <div id="settings" v-show="showSettings">
+            <transition>
+            <div id="settings" v-show="settings.showSettings">
                 <h2>設定</h2>
                 <h3>カテゴリ設定（1行に1項目）</h3>
-                <textarea rows="10" cols="80">{{ outputStr }}</textarea>
+                <textarea @change="onChangeCategoryStr" v-model = "categoryStr"
+                 rows="10" cols="80">{{ categoryStr }}</textarea>
                 <br />
                 <br />
-                <h3>出力文字列テンプレート</h3>
-                <input type = "text" v-model = "outputTemplate" size = "80" title = "出力文字列のテンプレート" /><br />
-                <br />
-                <div style="font-size: 80%;border: 1px #d7d7d7 dashed;">
+                <h3>タイムライン出力テンプレート</h3>
+                <p>ヘッダ<br />
+                <input typeop = "text" v-model = "outputTemplate.header" @change = "onChangeOutputTemplate" size = "80" title = "出力の一番最初に1度だけ出力される文字列" /></p>
+                <p>本文<br />
+                <input type = "text" v-model = "outputTemplate.body" size = "80" @change = "onChangeOutputTemplate" title = "各項目ごとに出力される文字列" /></p>
+                <p>フッタ<br />
+                <input type = "text" v-model = "outputTemplate.footer" size = "80" @change = "onChangeOutputTemplate" title = "出力の一番最後に1度だけ出力される文字列" /></p>
+
+                <div class="enclosure">
                     <strong>置換される文字列：</strong>
                     <ul>
                     <li>{StartHour}：開始時刻（時）</li>
@@ -66,9 +75,41 @@
                     <li>{DurationMinutes}：経過時間（分）</li>
                     <li>{Category}：カテゴリ</li>
                     <li>{Text}：内容</li>
+                    <li>{br}：改行</li>
                 </ul>
                 </div>
+                <h3>カテゴリ別サマリ出力テンプレート</h3>
+                <p>
+                    ヘッダ<br />
+                    <input typeop = "text" v-model = "outputTemplate.summaryHeader" @change = "onChangeOutputTemplate" size = "80" title = "出力の一番最初に1度だけ出力される文字列" />
+                </p>
+                <p>
+                    本文<br />
+                    <input type = "text" v-model = "outputTemplate.summaryBody" size = "80" @change = "onChangeOutputTemplate" title = "各項目ごとに出力される文字列" />
+                </p>
+                <p>
+                    フッタ<br />
+                    <input type = "text" v-model = "outputTemplate.summaryFooter" size = "80" @change = "onChangeOutputTemplate" title = "出力の一番最後に1度だけ出力される文字列" />
+                </p>
+    
+                    <div class="enclosure">
+                        <strong>置換される文字列：</strong>
+                        <ul>
+                            <li>{SummaryHour}：カテゴリ別の集計時間（時）</li>
+                            <li>{SummaryMinutes}：カテゴリ別の集計時間（分）</li>
+                            <li>{Category}：カテゴリ</li>
+                            <li>{br}：改行</li>
+                        </ul>
+                    </div>
+                <h3>その他</h3>
+                <div style="margin-top:1em;align-content:center;">
+                        「両方を出力」時にカテゴリ別サマリを先に出力する：
+                        <input type="checkbox" v-model="settings.isSummaryFirstInAllOutput" @change="onChangeSettings" id="switchIsSummaryFirst"/>
+                        <label class="switch" for="switchIsSummaryFirst"><div></div></label>
+                </div>
+            
             </div>
+            </transition>
         </div>
     </div>
         <script src="main.js"></script>
