@@ -139,7 +139,8 @@ var vm = new Vue({
             if (!window.confirm('アイテムを削除します。よろしいですか？')) { return; }
             if( ! this.$refs[index]['0'].isTopItem &&
                 ! this.$refs[index]['0'].isBottomItem ){
-                this.scheduleList[index+1].start = this.scheduleList[index-1].end;
+                this.scheduleList[index + 1].start = this.scheduleList[index - 1].end;
+                this.getDurationTime(index + 1);
             }
             this.scheduleList.splice(index,1);
         },
