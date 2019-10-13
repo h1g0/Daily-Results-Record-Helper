@@ -13,7 +13,7 @@
 
     <ul>
       <transition-group>
-        <schedule-list
+        <schedule-item
           v-for="(item,index) in scheduleList"
           v-bind:schedule="item"
           v-bind:index="index"
@@ -29,8 +29,8 @@
           @delete-item="deleteItem(index)"
           @change-end-time="onChangeEndTime(index)"
           @change-start-time="onChangeStartTime(index)"
-          @save-item="saveItem"
-        ></schedule-list>
+          @save-item="saveItem()"
+        ></schedule-item>
       </transition-group>
     </ul>
     <input
@@ -189,11 +189,11 @@
 </template>
 
 <script>
-import ScheduleList from "./components/ScheduleList.vue";
+import ScheduleItem from "./components/ScheduleItem.vue";
 export default {
   name: "app",
   components: {
-    ScheduleList
+    ScheduleItem
   },
   directives: {
     visible: {
