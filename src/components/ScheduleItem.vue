@@ -20,7 +20,7 @@
       @click="$emit('insert-now-time')"
       class="menu"
       value="⌚"
-      title="睾在時刻を挿入（5分刻㝿）"
+      title="現在時刻を挿入（5分刻み）"
     />
     <select v-model="schedule.category">
       <option v-for="category in categorylist" v-bind:key="category">{{ category }}</option>
@@ -32,21 +32,21 @@
       autocomplete="on"
       title="内容"
     />
-    <input type="text" v-model="schedule.duration" disabled="disabled" size="5" title="経靎時間" />
-    <input type="button" @click="$emit('add-item')" class="menu" value="➕" title="下㝫項目を追加" />
+    <input type="text" v-model="schedule.duration" disabled="disabled" size="5" title="経過時間" />
+    <input type="button" @click="$emit('add-item')" class="menu" value="➕" title="下に項目を追加" />
     <input
       type="button"
       @click="$emit('copy-item')"
       class="menu"
       value="📋"
-      title="下㝫内容をコピー㝗㝦項目を追加"
+      title="この内容をコピーして項目を追加"
     />
     <input
       type="button"
       @click="$emit('move-up-item')"
       class="menu"
       value="🔼"
-      title="㝓㝮内容を上㝫移動"
+      title="この内容を上に移動"
       v-visible="!this.isTopItem"
     />
     <input
@@ -54,7 +54,7 @@
       @click="$emit('move-down-item')"
       class="menu"
       value="🔽"
-      title="㝓㝮内容を下㝫移動"
+      title="この内容を下に移動"
       v-visible="!this.isBottomItem"
     />
     <input
@@ -62,7 +62,7 @@
       @click="$emit('delete-item')"
       class="menu"
       value="❌"
-      title="㝓㝮項目を削除"
+      title="この項目を削除"
       v-visible="this.isDeletableItem"
     />
   </li>
