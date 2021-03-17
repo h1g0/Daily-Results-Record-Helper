@@ -1,5 +1,5 @@
 <template>
-  <div class="schedule-list" :id="listName">
+  <div class="schedule-list">
     <h2>実績入力</h2>
     <input type="button" @click="clearList" class="menu" value="クリア" />
     <input
