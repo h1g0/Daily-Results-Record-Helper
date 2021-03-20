@@ -9,12 +9,18 @@
       value="テンプレ保存"
       title="現在の内容をテンプレートとして保存します。"
     />
-    <input type="button" @click="loadTemplate" class="menu" value="テンプレ呼出" title="テンプレートをロードします。" />
+    <input
+      type="button"
+      @click="loadTemplate"
+      class="menu"
+      value="テンプレ呼出"
+      title="テンプレートをロードします。"
+    />
 
     <ul>
       <transition-group>
         <schedule-item
-          v-for="(item,index) in scheduleList"
+          v-for="(item, index) in scheduleList"
           v-bind:schedule="item"
           v-bind:index="index"
           v-bind:totalsize="scheduleList.length"
@@ -55,10 +61,15 @@
       title="タイムラインとカテゴリ別サマリの両方を出力します。"
     />
 
-    <input type="button" @click="copyResult" class="menu" value="結果をクリップボードにコピー" />
+    <input
+      type="button"
+      @click="copyResult"
+      class="menu"
+      value="結果をクリップボードにコピー"
+    />
     <br />
     <textarea v-model="outputStr" rows="10" cols="80"></textarea>
-    <div style="margin-top:1em;align-content:center;">
+    <div style="margin-top: 1em; align-content: center">
       設定を表示する：
       <input
         type="checkbox"
@@ -74,7 +85,12 @@
       <div id="settings" v-show="settings.showSettings">
         <h2>設定</h2>
         <h3>カテゴリ設定（1行に1項目）</h3>
-        <textarea @change="onChangeCategoryStr" v-model="categoryStr" rows="10" cols="80"></textarea>
+        <textarea
+          @change="onChangeCategoryStr"
+          v-model="categoryStr"
+          rows="10"
+          cols="80"
+        ></textarea>
         <br />
         <br />
         <h3>タイムライン出力テンプレート</h3>
@@ -171,7 +187,7 @@
           </ul>
         </div>
         <h3>その他</h3>
-        <div style="margin-top:1em;align-content:center;">
+        <div style="margin-top: 1em; align-content: center">
           「両方を出力」時にカテゴリ別サマリを先に出力する：
           <input
             type="checkbox"
@@ -193,16 +209,16 @@ import ScheduleItem from "./ScheduleItem.vue";
 export default {
   name: "ScheduleList",
   components: {
-    ScheduleItem
+    ScheduleItem,
   },
   directives: {
     visible: {
-      update: function(el, binding) {
+      update: function (el, binding) {
         el.style.visibility = binding.value ? "visible" : "hidden";
-      }
-    }
+      },
+    },
   },
-  data: function() {
+  data: function () {
     return {
       scheduleList: [
         {
@@ -211,8 +227,8 @@ export default {
           end: "",
           duration: "",
           category: "",
-          text: ""
-        }
+          text: "",
+        },
       ],
       outputStr: "",
       categoryStr: "",
@@ -224,37 +240,37 @@ export default {
         footer: "{br}",
         summaryHeader: "### 工数サマリ{br}{br}",
         summaryBody: "- {Category}：{SummaryHour}h{SummaryMinutes}m{br}",
-        summaryFooter: "{br}"
+        summaryFooter: "{br}",
       },
       settings: {
         showSettings: false,
-        isSummaryFirstInAllOutput: false
-      }
+        isSummaryFirstInAllOutput: false,
+      },
     };
   },
   methods: {
-    buildId: function() {
-      return "xxxxx".replace(/x/g, function() {
+    buildId: function () {
+      return "xxxxx".replace(/x/g, function () {
         return ((Math.random() * 16) | 0).toString(16);
       });
     },
-    buildNewItem: function() {
+    buildNewItem: function () {
       return {
         id: this.buildId(),
         start: "",
         end: "",
         duration: "",
         category: "",
-        text: ""
+        text: "",
       };
     },
-    clearList: function() {
+    clearList: function () {
       if (!window.confirm("リストをクリアします。よろしいですか？")) {
         return;
       }
       this.scheduleList = [this.buildNewItem];
     },
-    saveTemplate: function() {
+    saveTemplate: function () {
       if (
         !window.confirm(
           "現在のリストをテンプレートとして保存します。よろしいですか？"
@@ -264,7 +280,7 @@ export default {
       }
       localStorage.scheduleListTemplate = JSON.stringify(this.scheduleList);
     },
-    loadTemplate: function() {
+    loadTemplate: function () {
       if (
         !window.confirm(
           "テンプレートをロードして現在のリストを上書きします。よろしいですか？"
@@ -274,7 +290,7 @@ export default {
       }
       this.scheduleList = JSON.parse(localStorage.scheduleListTemplate);
     },
-    addItem: function(index) {
+    addItem: function (index) {
       this.scheduleList.splice(
         index + 1,
         0,
@@ -283,11 +299,11 @@ export default {
       );
       this.scheduleList[index + 1].start = this.scheduleList[index].end;
     },
-    copyItem: function(index) {
+    copyItem: function (index) {
       this.addItem(index);
       this.scheduleList[index + 1].text = this.scheduleList[index].text;
     },
-    replaceItem: function(upperIndex, lowerIndex) {
+    replaceItem: function (upperIndex, lowerIndex) {
       let temp = this.scheduleList[lowerIndex];
       let upperItemStartTime = this.scheduleList[upperIndex].start;
       let upperItemDurationTime = this.scheduleList[upperIndex].duration;
@@ -324,19 +340,19 @@ export default {
         }
       }
     },
-    moveUpItem: function(index) {
+    moveUpItem: function (index) {
       if (this.$refs[index]["0"].isTopItem) {
         return;
       }
       this.replaceItem(index - 1, index);
     },
-    moveDownItem: function(index) {
+    moveDownItem: function (index) {
       if (this.$refs[index]["0"].isBottomItem) {
         return;
       }
       this.replaceItem(index, index + 1);
     },
-    deleteItem: function(index) {
+    deleteItem: function (index) {
       if (!window.confirm("アイテムを削除します。よろしいですか？")) {
         return;
       }
@@ -349,14 +365,14 @@ export default {
       }
       this.scheduleList.splice(index, 1);
     },
-    setAllItemStates: function() {
+    setAllItemStates: function () {
       for (let item in this.$refs) {
         if (this.$refs[item]["0"] != null) {
           this.$refs[item]["0"].setItemState();
         }
       }
     },
-    insertNowTime: function(index) {
+    insertNowTime: function (index) {
       let nowTime = new Date();
       let hour = nowTime.getHours();
       let min = nowTime.getMinutes();
@@ -374,7 +390,7 @@ export default {
       this.scheduleList[index].end = hourStr + ":" + minStr;
       this.onChangeEndTime(index);
     },
-    convertTimeStrToDate: function(timeStr) {
+    convertTimeStrToDate: function (timeStr) {
       let nowTime = new Date();
       let result = new Date(
         nowTime.getFullYear().toString() +
@@ -388,7 +404,7 @@ export default {
       );
       return result;
     },
-    getDurationTime: function(index) {
+    getDurationTime: function (index) {
       if (
         this.scheduleList[index].start == "" ||
         this.scheduleList[index].end == ""
@@ -410,7 +426,7 @@ export default {
       this.getDurationTime(index);
       this.saveItem();
     },
-    onChangeEndTime: function(index) {
+    onChangeEndTime: function (index) {
       if (!this.$refs[index]["0"].isBottomItem) {
         this.scheduleList[index + 1].start = this.scheduleList[index].end;
         this.getDurationTime(index + 1);
@@ -418,7 +434,7 @@ export default {
       this.getDurationTime(index);
       this.saveItem();
     },
-    replaceOutputStr: function(item, template) {
+    replaceOutputStr: function (item, template) {
       let startStrArray = this.scheduleList[item].start.split(":");
       let endStrArray = this.scheduleList[item].end.split(":");
       let durationStrArray = this.scheduleList[item].duration.split(":");
@@ -434,14 +450,14 @@ export default {
         .replace(/\{br\}/g, "\n");
       return lineStr;
     },
-    outputResult: function() {
+    outputResult: function () {
       this.outputStr = this.replaceOutputStr(0, this.outputTemplate.header);
       for (let item in this.scheduleList) {
         this.outputStr += this.replaceOutputStr(item, this.outputTemplate.body);
       }
       this.outputStr += this.replaceOutputStr(0, this.outputTemplate.footer);
     },
-    replaceOutputSummaryStr: function(categoryStr, summaryMinutes, template) {
+    replaceOutputSummaryStr: function (categoryStr, summaryMinutes, template) {
       let durationMin = ("0" + (summaryMinutes % 60).toString()).slice(-2);
       let durationHour = (
         "0" + ((summaryMinutes - durationMin) / 60).toString()
@@ -453,7 +469,7 @@ export default {
         .replace(/\{br\}/g, "\n");
       return lineStr;
     },
-    outputSummaryResult: function() {
+    outputSummaryResult: function () {
       let summaryDict = {};
       for (let item in this.scheduleList) {
         summaryDict[this.scheduleList[item].category] = 0;
@@ -484,7 +500,7 @@ export default {
         this.outputTemplate.summaryFooter
       );
     },
-    outputAllResult: function() {
+    outputAllResult: function () {
       this.outputResult();
       let resultStr = this.outputStr;
       this.outputSummaryResult();
@@ -495,30 +511,30 @@ export default {
         this.outputStr = resultStr + resultSummaryStr;
       }
     },
-    outputJSON: function() {
+    outputJSON: function () {
       this.outputStr = JSON.stringify(this.scheduleList);
     },
-    copyResult: function() {
+    copyResult: function () {
       let textarea = document.getElementsByTagName("textarea")[0];
       textarea.select();
       document.execCommand("copy");
     },
-    saveItem: function() {
+    saveItem: function () {
       localStorage.scheduleList = JSON.stringify(this.scheduleList);
     },
-    onChangeOutputTemplate: function() {
+    onChangeOutputTemplate: function () {
       localStorage.outputTemplate = JSON.stringify(this.outputTemplate);
     },
-    setCategoryStrToList: function() {
+    setCategoryStrToList: function () {
       this.categoryList = this.categoryStr.split("\n");
     },
-    onChangeCategoryStr: function() {
+    onChangeCategoryStr: function () {
       this.setCategoryStrToList();
       localStorage.categoryList = JSON.stringify(this.categoryList);
     },
-    onChangeSettings: function() {
+    onChangeSettings: function () {
       localStorage.settings = JSON.stringify(this.settings);
-    }
+    },
   },
   mounted() {
     if (localStorage.scheduleList) {
@@ -541,16 +557,16 @@ export default {
       }
     }
   },
-  updated: function() {
-    this.$nextTick(function() {
+  updated: function () {
+    this.$nextTick(function () {
       this.setAllItemStates();
     });
   },
   watch: {
     scheduleList() {
       this.saveItem();
-    }
-  }
+    },
+  },
 };
 </script>
 
