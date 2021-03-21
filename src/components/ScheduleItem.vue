@@ -7,7 +7,8 @@
       v-bind:disabled="!isTopItem"
       autocomplete="on"
       title="開始時刻"
-    /> -
+    />
+    -
     <input
       type="time"
       v-model="schedule.end"
@@ -23,7 +24,9 @@
       title="現在時刻を挿入（5分刻み）"
     />
     <select v-model="schedule.category">
-      <option v-for="category in categorylist" v-bind:key="category">{{ category }}</option>
+      <option v-for="category in categorylist" v-bind:key="category">
+        {{ category }}
+      </option>
     </select>
     <input
       type="text"
@@ -32,8 +35,20 @@
       autocomplete="on"
       title="内容"
     />
-    <input type="text" v-model="schedule.duration" disabled="disabled" size="5" title="経過時間" />
-    <input type="button" @click="$emit('add-item')" class="menu" value="➕" title="下に項目を追加" />
+    <input
+      type="text"
+      v-model="schedule.duration"
+      disabled="disabled"
+      size="5"
+      title="経過時間"
+    />
+    <input
+      type="button"
+      @click="$emit('add-item')"
+      class="menu"
+      value="➕"
+      title="下に項目を追加"
+    />
     <input
       type="button"
       @click="$emit('copy-item')"
@@ -74,20 +89,20 @@ export default {
   props: ["schedule", "index", "totalsize", "categorylist"],
   directives: {
     visible: {
-      update: function(el, binding) {
+      update: function (el, binding) {
         el.style.visibility = binding.value ? "visible" : "hidden";
-      }
-    }
+      },
+    },
   },
-  data: function() {
+  data: function () {
     return {
       isTopItem: true,
       isBottomItem: true,
-      isDeletableItem: false
+      isDeletableItem: false,
     };
   },
   methods: {
-    setItemState: function() {
+    setItemState: function () {
       if (this.index == 0) {
         this.isTopItem = true;
       } else {
@@ -103,8 +118,8 @@ export default {
       } else {
         this.isDeletableItem = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
