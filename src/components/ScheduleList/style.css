@@ -1,0 +1,130 @@
+.v-enter-active,
+.v-leave-active,
+.v-move {
+  animation-timing-function: ease;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.v-leave-active {
+  position: absolute;
+}
+.v-enter {
+  opacity: 0;
+  transform: translateX(-64px);
+}
+.v-leave-to {
+  opacity: 0;
+  transform: translateX(64px);
+}
+#page {
+  width: 100%;
+}
+h1 {
+  font-size: 16px;
+  padding: 0.3em 0.3em;
+  color: #494949;
+  background: #f4f4f4;
+  border-left: solid 16px #7db4e6;
+  border-bottom: solid 3px #d7d7d7;
+}
+h2 {
+  font-size: 16px;
+  padding: 0.1em 1em;
+  color: #494949;
+  background: #f4f4f4;
+  border-left: solid 16px #7db4e6;
+}
+h3 {
+  font-size: 14px;
+  padding: 0.1em 1em;
+  color: #494949;
+  border-left: solid 8px #7db4e6;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  appearance: none;
+}
+.menu {
+  display: inline-block;
+  border-radius: 5%;
+  font-size: 11pt;
+  text-align: center;
+  cursor: pointer;
+  padding: 3px 3px;
+  background: #f4f4f4;
+  color: #494949;
+  line-height: 1em;
+  transition: 0.3s;
+  border: 1px solid #494949;
+}
+.menu:hover {
+  color: #f4f4f4;
+  background: #7db4e6;
+}
+
+div#settings {
+  animation: show 0.3s ease 0s;
+}
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label.switch {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 48px;
+  height: 16px;
+  color: #949494;
+  border: 1px solid #494949;
+  border-radius: 3px;
+  background-color: #f4f4f4;
+}
+
+input[type="checkbox"]:checked + label.switch {
+  border: 1px solid #494949;
+  background-color: #7db4e6;
+}
+
+input[type="checkbox"] + label.switch::before {
+  font-size: 12px;
+  content: "off";
+  position: absolute;
+  top: 1px;
+  left: auto;
+  right: 6px;
+  color: #494949;
+}
+
+input[type="checkbox"]:checked + label.switch::before {
+  content: "on";
+  position: absolute;
+  left: 6px;
+  right: auto;
+  color: #f4f4f4;
+}
+
+input[type="checkbox"] + label.switch > div {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #494949;
+  border-radius: 3px;
+  background-color: #f4f4f4;
+  transition: 0.2s;
+}
+
+input[type="checkbox"]:checked + label.switch > div {
+  border: 1px solid transparent;
+  left: 32px;
+}
+div.enclosure {
+  font-size: 80%;
+  border: 1px #d7d7d7 dashed;
+}
