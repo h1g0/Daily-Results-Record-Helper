@@ -160,7 +160,7 @@ export default {
         },
         setAllItemStates: function () {
             for (let item in this.$refs) {
-                if (this.$refs[item]["0"] != null) {
+                if (this.$refs[item]["0"] !== null) {
                     this.$refs[item]["0"].setItemState();
                 }
             }
@@ -199,8 +199,8 @@ export default {
         },
         getDurationTime: function (index) {
             if (
-                this.scheduleList[index].start == "" ||
-                this.scheduleList[index].end == ""
+                this.scheduleList[index].start === "" ||
+                this.scheduleList[index].end === ""
             ) {
                 return;
             }
@@ -268,7 +268,7 @@ export default {
                 summaryDict[this.scheduleList[item].category] = 0;
             }
             for (let item in this.scheduleList) {
-                if (this.scheduleList[item].duration != "") {
+                if (this.scheduleList[item].duration !== "") {
                     let durationStrArr = this.scheduleList[item].duration.split(":");
                     let durationMin =
                         parseInt(durationStrArr[0]) * 60 + parseInt(durationStrArr[1]);
